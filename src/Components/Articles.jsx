@@ -3,10 +3,10 @@ import { titleSlicer } from "../utils/helper";
 import Carousel from "./Carousel";
 
 import {BsBookmarkPlus} from "react-icons/bs";
-import useStickyState from "@nicer-toolbox/use-sticky-state";
+import { useStickyState } from "../Containers/App/redux/action";
 
 const Articles = ({ sections, title }) => {
-  const [bookmark, addBookmark] = useStickyState("", 'bookmark')
+  const [bookmark, addBookmark] = useStickyState('', 'bookmark')
   if (sections.length < 2) {
     return (
       <>
@@ -103,7 +103,7 @@ const Articles = ({ sections, title }) => {
                           <p className="text-normal text-gray-400">
                             {item.publisher}
                           </p>
-                          <BsBookmarkPlus onClick={() => addBookmark(item.title)}>
+                          <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
 
                           </BsBookmarkPlus>
                         </a>
@@ -171,7 +171,7 @@ const Articles = ({ sections, title }) => {
                         <p className="text-normal text-gray-400">
                           {item.publisher}
                         </p>
-                        <BsBookmarkPlus onClick={() => addBookmark(item.title)}>
+                        <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
 
                           </BsBookmarkPlus>
                       </div>
@@ -214,7 +214,7 @@ const Articles = ({ sections, title }) => {
                       <p className="text-normal text-gray-400">
                         Dipublikasi oleh : {item.publisher}
                       </p>
-                      <BsBookmarkPlus onClick={() => addBookmark(item.title)}>
+                      <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
 
                       </BsBookmarkPlus>
                     </div>

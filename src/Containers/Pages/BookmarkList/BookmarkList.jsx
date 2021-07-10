@@ -1,41 +1,60 @@
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Card from "@material-tailwind/react/Card";
-import CardImage from "@material-tailwind/react/CardImage";
-import CardBody from "@material-tailwind/react/CardBody";
-import CardFooter from "@material-tailwind/react/CardFooter";
-import H6 from "@material-tailwind/react/Heading6";
-import Paragraph from "@material-tailwind/react/Paragraph";
-import Button from "@material-tailwind/react/Button";
+
 
 import {useSelector} from "react-redux";
 // import Articles from '../../../Components/Articles';
 import MainSection from '../../../Components/MainSection';
+import {FaTrash} from "react-icons/fa";
 const BookmarkList = () => {
-    const [list,setList] = useState(localStorage.getItem('bookmark'));
+    const [list,setList] = useState(JSON.parse(localStorage.getItem('bookmark')));
+    
+
+    const deleteHandler = (id) => {
+      // console.log(id)
+      list.splice(id, 1);
+
+
+
+      localStorage.setItem('bookmark', JSON.stringify(list));
+     
+      setList(list.filter(bookmarklist => bookmarklist.id !== id));
+    }
+
     return (
-        <Card>
-            <CardImage
-            className="w-full h-96 bg-contain bg-center z-0"
-                src="https://www.pngitem.com/pimgs/m/207-2073545_download-transparent-work-in-progress-clipart-work-parallel.png"
-                alt="Card Image"
-            />
+        <>
+           {list.length > 0  ? (
+            <div className="grid grid-flow-row grid-cols-2 gap-3 m-4">
+              
+                {list.map((item, i) => {
+                  return (
+                    <Card>
+                        <p className="text-xl font-medium text-black">
+                            {item}
+                        </p>
+                        <FaTrash onClick = {() => deleteHandler(i)}></FaTrash>
+                    </Card>
+                  );
+                })}
+              
+            </div>
+          ) : (
+            <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+            <div class="flex">
+              <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+              <div>
+                <p class="font-bold">No Bookmark</p>
+                
+              </div>
+            </div>
+          </div>
 
-            <CardBody>
-                <H6 color="gray">{list}</H6>
-                <Paragraph color="gray">
-                    ON progress ....
-                </Paragraph>
-            </CardBody>
 
-            <CardFooter>
-                <Button color="lightBlue" size="lg" ripple="light">
-                    Read More
-                </Button>
-            </CardFooter>
-        </Card>
-    );
-}
-
+          )}
+           </>
+          );
+    
+          }
 
 export default BookmarkList

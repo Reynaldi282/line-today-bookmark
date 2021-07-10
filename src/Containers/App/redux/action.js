@@ -6,7 +6,7 @@ import {
 } from "./constants"
 
 import axios from "axios"
-
+import React, { useState} from "react";
 export const fetchDataSuccess = (payload) =>{
     return {
         type:GET_DATA_SUCCESS,
@@ -80,3 +80,44 @@ export const fetchBookmarks = (link) =>{
             })
     }
 }
+
+export const  useStickyState= (defaultValue, key) => {
+    const [value, setValue] = useState(() => {
+      const stickyValue = JSON.parse(window.localStorage.getItem(key));
+    
+      return stickyValue !== null
+        ? stickyValue
+        : defaultValue;
+    });
+    
+    React.useEffect(() => {
+        
+        const data = JSON.parse(window.localStorage.getItem(key))||[];
+        if (value instanceof Array){
+            return;
+        }
+        if (data===""){
+            return;
+        }
+        if (value ===""){
+            return;
+        }
+        if (data.indexOf(value) === -1){
+            
+            
+            data.push(value)
+            
+            window.localStorage.setItem(key, JSON.stringify(data));
+            
+            return;
+        }
+        
+        // const index = getLocalStorage
+        // .findIndex(user => return user == id_of_the_user_to_remove);
+//         
+       
+      
+    },[key, value]);
+    return [value, setValue];
+  }
+
