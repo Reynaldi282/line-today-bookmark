@@ -24,7 +24,7 @@ const BookmarkList = () => {
 
     return (
         <>
-           {list.length > 0  ? (
+           {list && list.length > 0  ? (
             <div className="grid grid-flow-row grid-cols-2 gap-3 m-4">
               
                 {list.map((item, i) => {

@@ -28,6 +28,7 @@ import Music from "../Pages/Music/Music";
 import Campus from "../Pages/Campus/Campus";
 import BookmarkList from "../Pages/BookmarkList/BookmarkList";
 import Loading from "./Loading";
+import CommentSection from "../Pages/CommentSection/CommentSection";
 import { fetchData } from "./redux/action";
 import "@material-tailwind/react/tailwind.css";
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/Campus" component={Campus} />
             <Route path="/test" component={Carousel} />
             <Route path="/bookmarks" component={BookmarkList} />
+            <Route path="/comments/:id" render={(props) =><CommentSection {...props} ></CommentSection>} />
           </Switch>
         </div>
       ) : (

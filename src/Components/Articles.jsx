@@ -1,12 +1,17 @@
-import React from "react";
+import React,{useState} from "react";
 import { titleSlicer } from "../utils/helper";
 import Carousel from "./Carousel";
-
+import { Link } from "react-router-dom";
 import {BsBookmarkPlus} from "react-icons/bs";
-import { useStickyState } from "../Containers/App/redux/action";
 
+import { useArrayStickyState } from "../Containers/App/redux/action";
+import LikeButton from "./LikeButton";
+import CommentButton from "./CommentButton";
 const Articles = ({ sections, title }) => {
-  const [bookmark, addBookmark] = useStickyState('', 'bookmark')
+  
+  const [bookmark, addBookmark] = useArrayStickyState('', 'bookmark')
+  // const [numofcomment,setNumOfComment = useState(JSON.parse(localStorage.getItem(n)));
+  
   if (sections.length < 2) {
     return (
       <>
@@ -15,8 +20,7 @@ const Articles = ({ sections, title }) => {
             <Carousel autoplay={true} show={1}>
               {sections[0].articles.map((item, i) => {
                 return (
-                  <a
-                    href="/#"
+                  <div
                     className="place-content-center"
                     key={i}
                   >
@@ -30,12 +34,12 @@ const Articles = ({ sections, title }) => {
                       }
                     />
                     <div className="center w-full h-18 bg-gray-100 mx-16 transform -translate-y-16 p-2">
-                      <p className="font-medium text-2xl">
+                      <a href={item.url.url}className="font-medium text-2xl">
                         {titleSlicer(item.title)} 
-                      </p>
+                      </a>
                       
                     </div>
-                  </a>
+                  </div>
                 );
               })}
             </Carousel>
@@ -48,7 +52,7 @@ const Articles = ({ sections, title }) => {
                 <Carousel show={2} duo>
                   {sections[0].articles.map((item, i) => {
                     return (
-                      <a href="/#" className="w-full px-1" key={i}>
+                      <div className="w-full px-1" key={i}>
                         <img
                           className="w-full h-40 bg-contain bg-center"
                           src={
@@ -58,11 +62,11 @@ const Articles = ({ sections, title }) => {
                           }
                         />
                         <div className="w- h-18 bg-gray-100 mx-1 transform -translate-y-16 p-2">
-                          <p className="font-small text-thin">
+                          <a href={item.url.url} className="font-small text-thin">
                             {titleSlicer(item.title)} 
-                          </p>
+                          </a>
                         </div>
-                      </a>
+                      </div>
                     );
                   })}
                 </Carousel>
@@ -84,8 +88,7 @@ const Articles = ({ sections, title }) => {
                   <div className="grid grid-flow-row grid-cols-2 gap-3 m-4">
                     {sections[0].articles.map((item, i) => {
                       return (
-                        <a
-                          href="/#"
+                        <div
                           className="articles-item"
                           key={i}
                         >
@@ -97,16 +100,34 @@ const Articles = ({ sections, title }) => {
                               "/w580"
                             }
                           />
-                          <p className="text-xl font-medium text-black">
+                          <a href={item.url.url} className="text-xl font-medium text-black">
                             {titleSlicer(item.title)}
-                          </p>
+                          </a>
                           <p className="text-normal text-gray-400">
                             {item.publisher}
                           </p>
-                          <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
+                          
+                          <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
+                    
+                          <div class="flex space-x-3 mb-4 text-sm font-medium">
+                          <div class="flex-auto flex space-x-3">
+                              <LikeButton id={item.thumbnail.hash}></LikeButton>
 
-                          </BsBookmarkPlus>
-                        </a>
+                          </div>
+                          <button class="flex-none flex items-center justify-center w-9 h-9 rounded-md text-gray-400 border border-gray-300" type="button" aria-label="like">
+                    
+                      <Link 
+                      to={{
+                        pathname: `/comments/${item.thumbnail.hash}`,
+                        state:{id:item.thumbnail.hash},
+                     
+                      }}
+                    >
+                      <CommentButton id={item.thumbnail.hash}></CommentButton>
+                      </Link>
+                   </button>
+                        </div>
+                        </div>
                       );
                     })}
                   </div>
@@ -125,7 +146,7 @@ const Articles = ({ sections, title }) => {
           <Carousel autoplay={true} show={1}>
             {sections[0].articles.map((item, i) => {
               return (
-                <a href="/#" className="place-content-center" key={i}>
+                <div className="place-content-center" key={i}>
                   <img
                     className="w-full h-96 bg-contain bg-center z-0"
                     src={
@@ -135,12 +156,12 @@ const Articles = ({ sections, title }) => {
                     }
                   />
                   <div className="center w-full h-18 bg-gray-100 mx-16 transform -translate-y-16 p-2">
-                    <p className="font-medium text-2xl">
+                    <a href={item.url.url} className="font-medium text-2xl">
                       {titleSlicer(item.title)}
                      
-                    </p>
+                    </a>
                   </div>
-                </a>
+                </div>
               );
             })}
           </Carousel>
@@ -155,7 +176,7 @@ const Articles = ({ sections, title }) => {
               {sections[0].articles.map((item, i) => {
                 return (
                   <div className="articles-item-wrapper">
-                    <a href="/#" className="articles-item" key={i}>
+                    <div className="articles-item" key={i}>
                       <img
                         className="w-36 h-20 rounded-lg"
                         src={
@@ -165,17 +186,36 @@ const Articles = ({ sections, title }) => {
                         }
                       />
                       <div className="flex-grow">
-                        <p className="text-l font-semibold text-black">
-                          {/* {titleSlicer(item.title)}  */} y
-                        </p>
+                        <a href={item.url.url} className="text-l font-semibold text-black">
+                          {titleSlicer(item.title)}  
+                        </a>
                         <p className="text-normal text-gray-400">
                           {item.publisher}
                         </p>
-                        <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
-
-                          </BsBookmarkPlus>
-                      </div>
-                    </a>
+                        
+                        <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
+                    </div>
+                    <div class="flex space-x-3 mb-4 text-sm font-medium">
+                    <div class="flex-auto flex space-x-3">
+                        <LikeButton id={item.thumbnail.hash}></LikeButton>
+                           
+                
+                        
+                    </div>
+                    <button class="flex-none flex items-center justify-center w-9 h-9 rounded-md text-gray-400 border border-gray-300" type="button" aria-label="like">
+                    
+                      <Link 
+                      to={{
+                        pathname: `/comments/${item.thumbnail.hash}`,
+                        state:{id:item.thumbnail.hash},
+                     
+                      }}
+                    >
+                      <CommentButton id={item.thumbnail.hash}></CommentButton>
+                      </Link>
+                   </button>
+                  </div>
+                    </div>
                   </div>
                 );
               })}
@@ -194,8 +234,7 @@ const Articles = ({ sections, title }) => {
               return (
                 <div className="w-full">
 
-                  <a
-                    href="/#"
+                  <div
                     className="h-full flex items-center p-4 rounded-lg"
                     key={i}
                   >
@@ -207,24 +246,46 @@ const Articles = ({ sections, title }) => {
                         "/w580"
                       }
                     />
+                    
                     <div className="flex-grow">
-                      <p className="text-xl font-semibold text-black">
+                      <a href={item.url.url}className="text-xl font-semibold text-black">
                         {titleSlicer(item.title)}
-                      </p>
+                      </a>
                       <p className="text-normal text-gray-400">
                         Dipublikasi oleh : {item.publisher}
                       </p>
-                      <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}>
-
-                      </BsBookmarkPlus>
+                      <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
                     </div>
-                  </a>
+                    <div class="flex space-x-3 mb-4 text-sm font-medium">
+                    <div class="flex-auto flex space-x-3">
+                        <LikeButton id={item.thumbnail.hash}></LikeButton>
+                           
+                
+                        
+                    </div>
+                    <button class="flex-none flex items-center justify-center w-9 h-9 rounded-md text-gray-400 border border-gray-300" type="button" aria-label="like">
+                    
+                      <Link 
+                      to={{
+                        pathname: `/comments/${item.thumbnail.hash}`,
+                        state:{id:item.thumbnail.hash},
+                     
+                      }}
+                    >
+                      <CommentButton id={item.thumbnail.hash}></CommentButton>
+                      </Link>
+                   </button>
+                  </div>
+                         
+                     
+                  </div>
                 </div>
               );
             })}
           </div>
         </section>
       </div>
+
     </>
   );
 };

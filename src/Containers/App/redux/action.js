@@ -60,7 +60,7 @@ export const fetchArticleDetails = (link) =>{
     return async function(dispatch) {
         axios.get(link)
             .then( (response) => {
-                
+                console.log(response)
             })
             .catch( (err) => {
                 dispatch(fetchDataFailure(err))
@@ -69,17 +69,7 @@ export const fetchArticleDetails = (link) =>{
 }
 
 
-export const fetchBookmarks = (link) =>{
-    return async function(dispatch) {
-        axios.get(link)
-            .then( (response) => {
-                
-            })
-            .catch( (err) => {
-                dispatch(fetchDataFailure(err))
-            })
-    }
-}
+
 
 export const  useStickyState= (defaultValue, key) => {
     const [value, setValue] = useState(() => {
@@ -121,3 +111,85 @@ export const  useStickyState= (defaultValue, key) => {
     return [value, setValue];
   }
 
+export const  useArrayStickyState= (defaultValue, key) => {
+    const [value, setValue] = useState(() => {
+      const stickyValue = JSON.parse(window.localStorage.getItem(key));
+    
+      return stickyValue !== null
+        ? stickyValue
+        : defaultValue;
+    });
+    
+    React.useEffect(() => {
+        
+        const data = JSON.parse(window.localStorage.getItem(key))||[];
+        if (value instanceof Array){
+            return;
+        }
+        if (data===""){
+            return;
+        }
+        if (value ===""){
+            return;
+        }
+        console.log('aa')
+        console.log(value)
+        console.log(data)
+        if (data.indexOf(value) === -1){
+            
+            
+            data.push(value)
+            
+            window.localStorage.setItem(key, JSON.stringify(data));
+            
+            return;
+        }
+        
+        // const index = getLocalStorage
+        // .findIndex(user => return user == id_of_the_user_to_remove);
+//         
+       
+      
+    },[key, value]);
+    return [value, setValue];
+}
+
+export const  useCommentStickyState= (defaultValue, key) => {
+    const [value, setValue] = useState(() => {
+      const stickyValue = JSON.parse(window.localStorage.getItem(key));
+    
+      return stickyValue !== null
+        ? stickyValue
+        : defaultValue;
+    });
+    
+    React.useEffect(() => {
+        
+        const data = JSON.parse(window.localStorage.getItem(key))||[];
+        if (value instanceof Array){
+            return;
+        }
+        if (data===""){
+            return;
+        }
+        if (value ===""){
+            return;
+        }
+        if (data.indexOf(value) === -1){
+            
+            
+            data.push(value)
+            
+            window.localStorage.setItem(key, JSON.stringify(data));
+            
+            return;
+        }
+        
+        // const index = getLocalStorage
+        // .findIndex(user => return user == id_of_the_user_to_remove);
+//         
+       
+      
+    },[key, value]);
+    return [value, setValue];
+  }
