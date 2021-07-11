@@ -11,29 +11,29 @@ const BookmarkList = () => {
     const [list,setList] = useState(JSON.parse(localStorage.getItem('bookmark')));
     
 
-    const deleteHandler = (id) => {
-      // console.log(id)
+    const deleteHandler = (item,id) => {
+      localStorage.removeItem(item.id)
       list.splice(id, 1);
 
 
 
       localStorage.setItem('bookmark', JSON.stringify(list));
-     
+      
       setList(list.filter(bookmarklist => bookmarklist.id !== id));
     }
 
     return (
         <>
-           {list && list.length > 0  ? (
+           {list && list.length>0 ? (
             <div className="grid grid-flow-row grid-cols-2 gap-3 m-4">
               
                 {list.map((item, i) => {
                   return (
                     <Card>
                         <p className="text-xl font-medium text-black">
-                            {item}
+                            {item.title}
                         </p>
-                        <FaTrash onClick = {() => deleteHandler(i)}></FaTrash>
+                        <FaTrash onClick = {() => deleteHandler(item,i)}></FaTrash>
                     </Card>
                   );
                 })}

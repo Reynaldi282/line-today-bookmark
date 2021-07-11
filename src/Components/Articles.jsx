@@ -2,16 +2,18 @@ import React,{useState} from "react";
 import { titleSlicer } from "../utils/helper";
 import Carousel from "./Carousel";
 import { Link } from "react-router-dom";
-import {BsBookmarkPlus} from "react-icons/bs";
 
 import { useArrayStickyState } from "../Containers/App/redux/action";
 import LikeButton from "./LikeButton";
 import CommentButton from "./CommentButton";
+import BookmarkButton from "./BookmarkButton";
+
 const Articles = ({ sections, title }) => {
   
-  const [bookmark, addBookmark] = useArrayStickyState('', 'bookmark')
-  // const [numofcomment,setNumOfComment = useState(JSON.parse(localStorage.getItem(n)));
   
+  
+
+
   if (sections.length < 2) {
     return (
       <>
@@ -106,10 +108,9 @@ const Articles = ({ sections, title }) => {
                           <p className="text-normal text-gray-400">
                             {item.publisher}
                           </p>
-                          
-                          <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
-                    
+                          <BookmarkButton title={item.title} id = {item.thumbnail.hash}></BookmarkButton>
                           <div class="flex space-x-3 mb-4 text-sm font-medium">
+                          
                           <div class="flex-auto flex space-x-3">
                               <LikeButton id={item.thumbnail.hash}></LikeButton>
 
@@ -193,7 +194,7 @@ const Articles = ({ sections, title }) => {
                           {item.publisher}
                         </p>
                         
-                        <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
+                        <BookmarkButton title={item.title} id = {item.thumbnail.hash}></BookmarkButton>
                     </div>
                     <div class="flex space-x-3 mb-4 text-sm font-medium">
                     <div class="flex-auto flex space-x-3">
@@ -254,7 +255,7 @@ const Articles = ({ sections, title }) => {
                       <p className="text-normal text-gray-400">
                         Dipublikasi oleh : {item.publisher}
                       </p>
-                      <BsBookmarkPlus key={i} onClick={() => addBookmark(item.title)}></BsBookmarkPlus>
+                      <BookmarkButton title={item.title} id = {item.thumbnail.hash}></BookmarkButton>
                     </div>
                     <div class="flex space-x-3 mb-4 text-sm font-medium">
                     <div class="flex-auto flex space-x-3">
